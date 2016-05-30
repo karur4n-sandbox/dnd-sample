@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'post/new'
+  root 'post#new'
 
   get 'post/create'
 
