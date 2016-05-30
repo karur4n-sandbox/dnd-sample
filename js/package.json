@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch/uploader": "$(npm bin)/watchify -t babelify -o ../app/assets/javascripts/uploader.js src/uploader/main.js -v",
+    "build/uploader": "$(npm bin)/browserify -t babelify -o ../app/assets/javascripts/uploader.js src/uploader/main.js -v"
   },
   "keywords": [],
   "author": "",
