@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {EventEmitter} from "events";
 import Dropzone from 'react-dropzone';
+import request from 'superagent';
 
 class AppContainer extends React.Component {
   constructor(...args) {
@@ -22,7 +23,14 @@ class AppContainer extends React.Component {
 
 class FileDropzone extends React.Component {
   onDrop (files) {
-    console.log('Received files: ', files);
+    const req = request.post('/post');
+    files.forEach((file) => {
+      console.log(file);
+      req.attach('csv', file);
+    });
+    req.end(data => {
+      console.log(data)
+    });
   }
 
   render () {
@@ -47,12 +55,10 @@ class App extends React.Component {
       <div>
         <input onChange={this.onChangeFilterQuery.bind(this)}/>
         <FileDropzone />
-        <h2>aAAAAAAAAAAAAAAAAAAAAAAA</h2>
       </div>
     );
   }
 }
-
 
 ReactDOM.render(
   <AppContainer/>,
