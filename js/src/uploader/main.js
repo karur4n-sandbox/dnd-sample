@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {EventEmitter} from "events";
 import Dropzone from 'react-dropzone';
-import request from 'superagent';
+import fetch from 'whatwg-fetch';
 
 class AppContainer extends React.Component {
   constructor(...args) {
@@ -23,14 +23,17 @@ class AppContainer extends React.Component {
 
 class FileDropzone extends React.Component {
   onDrop (files) {
-    const req = request.post('/post');
-    files.forEach((file) => {
-      console.log(file);
-      req.attach('csv', file);
-    });
-    req.end(data => {
-      console.log(data)
-    });
+    if (files.length == 1) {
+      const file = files[0]
+      const data = new FormData()
+      data.append('csv', file)
+      fetch('/avatars', {
+        method: 'POST',
+        body: data
+      })
+    } else {
+      console.log('アップロードするファイルは 1 つまでです')
+    }
   }
 
   render () {
