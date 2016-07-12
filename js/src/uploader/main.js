@@ -1,23 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {EventEmitter} from "events";
 import Dropzone from 'react-dropzone';
-import fetch from 'whatwg-fetch';
+import 'whatwg-fetch';
 
 class AppContainer extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      filterQuery: ""
-    };
-    this.emitter = new EventEmitter();
-    this.emitter.on("change-filter-query", (filterQuery) => {
-      this.setState({filterQuery})
-    });
-  }
-
   render() {
-    return <App dispatch={this.emitter.emit.bind(this.emitter)} />
+    return <App />
   }
 }
 
@@ -27,7 +15,7 @@ class FileDropzone extends React.Component {
       const file = files[0]
       const data = new FormData()
       data.append('csv', file)
-      fetch('/avatars', {
+      fetch('/post', {
         method: 'POST',
         body: data
       })
@@ -48,15 +36,10 @@ class FileDropzone extends React.Component {
 }
 
 class App extends React.Component {
-  onChangeFilterQuery(ev) {
-    this.props.dispatch("change-filter-query", ev.target.value)
-  }
-
   render() {
     console.log("render start");
     return (
       <div>
-        <input onChange={this.onChangeFilterQuery.bind(this)}/>
         <FileDropzone />
       </div>
     );
